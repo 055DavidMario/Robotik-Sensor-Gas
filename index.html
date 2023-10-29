@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+  <link rel="icon" href="logo.png" type="image">
+  <title>Monitoring Polusi Udara</title>
+  
+  <style>
+      /* CSS untuk body */
+      html {
+        font-family: Arial;
+        display: inline-block;
+        margin: 0px auto;
+        text-align: center;
+      }
+
+      body {
+          height: 100vh;
+          margin: 0;
+          padding: 0;
+          background: linear-gradient(to bottom, #f0f8ff, #b4d5f5, #f0f8ff);
+      }
+
+      /* CSS untuk header */
+      .header {
+          background-color: #333;
+          color: #fff;
+          text-align: center;
+          padding: 20px;
+          font-size: 48px;
+      }
+
+      /* CSS untuk membuat header responsif */
+      @media (max-width: 600px) {
+          .header {
+              font-size: 24px;
+          }
+      }
+
+      /* CSS untuk status container */
+      .status-container {
+          margin: 10px 0px 0px 0px;
+          display: flex;
+          justify-content: right;
+          background-color: rgba(0, 0, 0, 0);
+          color: #fff;
+          padding: 10px;
+          border-radius: 5px;
+          font-size: 18px;
+      }
+
+      /* CSS untuk ikon status */
+      .status-icon {
+          font-size: 24px;
+          margin-right: 10px;
+      }
+
+      /* CSS untuk status dengan berbagai warna */
+      .status-good {
+          color: green;
+      }
+
+      .status-warning {
+          color: yellow;
+      }
+
+      .status-bad {
+          color: red;
+      }
+
+      /* CSS untuk card container */
+      .card-container {
+          margin: 0px 10px 10px 10px;
+          display: flex;
+          gap: 5px;
+          justify-content: space-around;
+      }
+
+      /* CSS untuk card */
+      .card {
+          width: 45%;
+          background-color: #f5f5f5;
+          border: 1px solid #ccc;
+          border-radius: 10px;
+          border-color: black;
+          padding: 20px;
+          text-align: center;
+      }
+
+      /* CSS untuk ikon */
+      .icon {
+          font-size: 24px;
+      }
+
+      /* CSS untuk membuat card responsif */
+      @media (max-width: 600px) {
+          .card {
+              width: 100%;
+          }
+          .card-container {
+              flex-wrap: wrap;
+          }
+      }
+
+      /* CSS untuk container baru */
+      .info-container {
+          background-color: #f5f5f5;
+          border: 1px solid #ccc;
+          border-radius: 10px;
+          border-color: black;
+          padding: 20px;
+          text-align: center;
+          font-size: 24px;
+          margin: 10px;
+      }
+
+      /* CSS untuk jam digital */
+      .digital-clock {
+          margin-top: 10px;
+          font-family: "Courier New", monospace;
+          color: #333;
+          font-size: 36px;
+      }
+
+      /* CSS untuk header, status, card (sudah ada) dan footer */
+      .footer {
+          background-color: #333;
+          color: #fff;
+          text-align: center;
+          padding: 20px;
+      }
+
+      .social-media-list {
+          list-style: none;
+          padding: 0;
+          display: flex;
+          justify-content: center;
+          margin-top: 10px;
+      }
+
+      .social-media-item {
+          margin: 0 10px;
+      }
+
+      .social-media-link {
+          color: #fff;
+          text-decoration: none;
+      }
+      
+      .isi {
+          min-height: 76.5%;
+          display: flex;
+          flex-direction: column;
+      }
+  </style>
+</head>
+<body>
+    <div class="isi">
+        <!-- Bagian header -->
+        <div class="header">
+            Monitoring Polusi Udara
+        </div>
+
+        <!-- Bagian status -->
+        <div class="status-container" id="status-container">
+            <i class="fas fa-circle status-icon"></i>
+            Kualitas Udara Baik
+        </div>
+        
+        <!-- Bagian card -->
+        <div class="card-container">
+            <div class="card">
+                <i class="fas fa-gas-pump icon" style="color:red;"></i>
+                <h2 class="gas-label">Gas</h2>
+                <div id="gas-concentration">Loading...</div>
+            </div>
+        </div>
+        
+        <!-- Container baru untuk informasi tanggal, waktu, dan jam digital -->
+        <div class="info-container">
+            <div id="date-time">
+                Loading...
+            </div>
+            <div class="digital-clock" id="digital-clock">
+                00:00:00
+            </div>
+        </div>
+    </div>
+    
+    <!-- Bagian footer -->
+    <div class="footer">
+        <p>Projek Lintas Prodi Robotik Mekatronik</p>
+        <p>Author: David Mario</p>
+        <ul class="social-media-list">
+            <li class="social-media-item">
+                <a class="social-media-link" href="https://wa.me/+6281289324751" target="_blank"><i class="fab fa-whatsapp"></i> Whatsapp</a>
+            </li>
+            <li class="social-media-item">
+                <a class="social-media-link" href="https://www.instagram.com/dmys_6/" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
+            </li>
+            <li class="social-media-item">
+                <a class="social-media-link" href="https://github.com/055DavidMario" target="_blank"><i class="fab fa-github"></i> Github</a>
+            </li>
+        </ul>
+    </div>
+    
+    <script>
+        // Fungsi untuk mengupdate tanggal, waktu, dan jam digital
+        function updateInfo() {
+            const dateTimeElement = document.getElementById("date-time");
+            const digitalClock = document.getElementById("digital-clock");
+    
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'};
+            const dateTimeString = now.toLocaleDateString('id-ID', options);
+            const timeString = now.toLocaleTimeString();
+    
+            dateTimeElement.textContent = dateTimeString;
+            digitalClock.textContent = timeString;
+        }
+
+        // Fungsi untuk mengupdate status kualitas udara berdasarkan angka
+        function updateAirQuality(airQualityValue) {
+            const statusContainer = document.querySelector(".status-container");
+            const statusIcon = statusContainer.querySelector(".status-icon");
+
+            if (airQualityValue >= 0 && airQualityValue < 100) {
+                statusContainer.classList.remove("status-warning", "status-bad");
+                statusContainer.classList.add("status-good");
+                statusIcon.style.color = "green";
+                statusContainer.textContent = "Kualitas Udara Baik";
+            } else if (airQualityValue >= 100 && airQualityValue < 200) {
+                statusContainer.classList.remove("status-good", "status-bad");
+                statusContainer.classList.add("status-warning");
+                statusIcon.style.color = "yellow";
+                statusContainer.textContent = "Warning / Kualitas Tidak Sehat";
+            } else {
+                statusContainer.classList.remove("status-good", "status-warning");
+                statusContainer.classList.add("status-bad");
+                statusIcon.style.color = "red";
+                statusContainer.textContent = "Bad Air Quality / Kualitas Udara Buruk";
+            }
+        }
+
+        // Panggil fungsi dengan nilai angka kualitas udara yang sesuai
+        // Ganti ini dengan nilai aktual dari Arduino
+        const airQualityValue = 150; // Contoh nilai kualitas udara
+        updateAirQuality(airQualityValue);
+
+        // Panggil fungsi pertama kali
+        updateInfo();
+    
+        // Perbarui tanggal, waktu, dan jam digital setiap detik
+        setInterval(updateInfo, 1000);
+    </script>
+</body>
+</html>
